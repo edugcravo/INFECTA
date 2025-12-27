@@ -1,0 +1,599 @@
+<html lang="pt-BR" class="scroll-smooth"><head>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFECTA // NADA É SAGRADO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&amp;family=Gloria+Hallelujah&amp;family=Major+Mono+Display&amp;family=Syncopate:wght@700&amp;family=Wallpoet&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'paper': '#F2EFE9',
+                        'ink': '#050505',
+                        'blood': '#8a0b0b',
+                        'tape': '#dbd22a',
+                        'concrete': '#808080',
+                    },
+                    fontFamily: {
+                        'classy': ['Abril Fatface', 'cursive'],
+                        'trash': ['Gloria Hallelujah', 'cursive'],
+                        'tech': ['Major Mono Display', 'monospace'],
+                        'loud': ['Syncopate', 'sans-serif'],
+                        'cyber': ['Wallpoet', 'cursive'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #202020 1px, transparent 1px), linear-gradient(to bottom, #202020 1px, transparent 1px)",
+                    },
+                    cursor: {
+                        'spray': 'url(https://cdn.custom-cursor.com/db/9864/32/spray-paint-cursor.png), crosshair',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CSS CHAOS ENGINE */
+        body {
+            background-color: #050505;
+            color: #F2EFE9;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        /* NOISE & GRAIN */
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.12;
+            background: url('noise.svg');
+            mix-blend-mode: overlay;
+        }
+
+        /* SCANLINES */
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        /* TEXT SELECTION */
+        ::selection {
+            background: #dbd22a; /* Tape Yellow */
+            color: #000;
+        }
+
+        /* ANIMATIONS */
+        @keyframes raw-shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        .hover-shake:hover {
+            animation: raw-shake 0.5s infinite;
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 2px #F2EFE9;
+            color: transparent;
+        }
+        
+        .text-outline-red {
+            -webkit-text-stroke: 1px #8a0b0b;
+            color: transparent;
+        }
+
+        /* GLITCH IMAGE HOVER */
+        .glitch-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .glitch-container:hover img {
+            filter: invert(1) contrast(200%);
+            transform: scale(1.1) rotate(2deg);
+        }
+        .glitch-container::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #8a0b0b;
+            mix-blend-mode: color-burn;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .glitch-container:hover::after {
+            opacity: 0.5;
+        }
+
+        /* TAPE EFFECT */
+        .tape {
+            background-color: rgba(219, 210, 42, 0.9);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+            transform: rotate(-2deg);
+            position: relative;
+        }
+        .tape::before, .tape::after {
+            content: '';
+            position: absolute;
+            width: 100%; height: 100%;
+            top: 0; left: 0;
+            background: inherit;
+            border-left: 1px dashed rgba(0,0,0,0.1);
+            border-right: 1px dashed rgba(0,0,0,0.1);
+        }
+
+        /* SCROLL REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px) skewY(5deg);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0) skewY(0);
+        }
+        /* TOXIC GLITCH - VERSÃO SLOW BURN (Lenta) */
+.toxic-glitch {
+    position: relative;
+    transition: all 0.5s ease; /* Transição de entrada mais suave */
+}
+
+.toxic-glitch:hover {
+    /* RGB Split (Separação de cores) */
+    text-shadow: 
+        4px 0px 0px rgba(138, 11, 11, 0.6),  /* Vermelho Sangue */
+        -4px 0px 0px rgba(0, 255, 255, 0.4); /* Ciano Tóxico */
+    
+    /* MUDANÇAS AQUI:
+       1. Tempo: Aumentado para 3s (era 0.4s)
+       2. Tipo: 'ease-in-out' (movimento macio, sem trancos)
+    */
+    animation: toxic-ooze 3s infinite ease-in-out alternate;
+}
+
+/* Animação nova: Mais "Derretida" e menos "Quebrada" */
+@keyframes toxic-ooze {
+    0% {
+
+        filter: blur(0px);
+    }
+    25% {
+    }
+    50% {
+
+        filter: blur(1px); /* Fica levemente turvo no meio */
+    }
+    75% {
+
+    }
+    100% {
+        filter: blur(0px);
+    }
+}
+
+
+
+/* Opcional: O "É UMA" pisca bem devagar agora */
+.toxic-glitch:hover span.text-outline {
+    animation: flash-slow 1.5s infinite ease-in-out;
+}
+
+@keyframes flash-slow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+    display: flex;
+    width: fit-content;
+    animation: marquee 20s linear infinite;
+}
+/* No mobile precisa ser um pouco mais rápido pois a tela é menor, 
+   ou ajustamos conforme o gosto. Aqui coloquei 15s */
+@media (max-width: 768px) {
+    .animate-marquee {
+        animation: marquee 15s linear infinite;
+    }
+}
+
+    </style>
+</head>
+<body class="bg-ink">
+
+    <!-- FX LAYERS -->
+    <div class="noise-overlay"></div>
+    <div class="scanlines"></div>
+
+    <!-- PRELOADER (Fake) -->
+    <div id="preloader" class="fixed inset-0 bg-ink z-[10000] flex items-center justify-center flex-col font-tech text-blood" style="transition: opacity 1s; opacity: 0; display: none;">
+        <div class="text-4xl animate-pulse">CARREGANDO O VÍRUS...</div>
+        <div class="mt-4 text-xs text-white">IGNORANDO PROTOCOLOS DE SEGURANÇA</div>
+    </div>
+
+    <!-- STICKY NAV (Brutalist) -->
+    <nav class="fixed top-0 left-0 h-screen w-16 border-r border-concrete z-50 flex flex-col justify-between items-center py-8 bg-ink hidden md:flex">
+        <div class="font-loud text-xs tracking-widest vertical-rl rotate-180 text-tape">SABOTAGEM</div>
+        <div class="flex flex-col gap-12 font-tech text-xl">
+            <a href="#hero" class="hover:text-blood transition-colors">01</a>
+            <a href="#manifesto" class="hover:text-blood transition-colors">02</a>
+            <a href="#work" class="hover:text-blood transition-colors">03</a>
+            <a href="#contact" class="hover:text-blood transition-colors">04</a>
+        </div>
+        <div class="font-tech text-xs vertical-rl text-concrete">V.2025</div>
+    </nav>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <main class="md:pl-16 relative w-full overflow-x-hidden">
+
+        <!-- HERO: THE SHOCK -->
+        <section id="hero" class="min-h-screen relative flex items-center justify-center overflow-hidden border-b-8 border-blood">
+            
+            <!-- Chaotic Background -->
+            <div class="absolute inset-0 z-0">
+                <img style="" src="fundo_papel.png" alt="Texture" class="w-full h-full object-cover opacity-20">
+                <div class="absolute inset-0 bg-grid-pattern opacity-20 bg-[length:40px_40px]"></div>
+            </div>
+
+            <!-- Content -->
+            <div class="relative z-10 w-full max-w-7xl px-4 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                
+                <!-- Text Attack -->
+                <div class="md:col-span-8 relative">
+                    <div class="absolute -top-12 -left-12 font-trash text-blood text-2xl rotate-[-15deg] animate-pulse">
+                        *Cuidado: Conteúdo Inflamável
+                    </div>
+                    
+                    <h1 class="toxic-glitch font-loud text-[4rem] md:text-[9rem] leading-[0.8] text-paper mix-blend-exclusion cursor-default break-words relative z-20">
+    SEU SITE<br>
+    <span class="text-outline hover:text-blood transition-colors duration-300">É UMA</span><br>
+    MERDA.
+</h1>
+                    
+                    <div class="mt-8 bg-paper text-ink p-6 transform rotate-2 max-w-xl shadow-[8px_8px_0px_#8a0b0b]">
+                        <p class="font-tech text-sm md:text-lg font-bold">
+                            // MENTIRAM PRA VOCÊ.
+                            <br>
+                            Design limpo é covardia. Minimalismo é falta de ideia. 
+                            Nós não fazemos sites. Nós cometemos <span class="bg-black text-white px-1">crimes visuais</span> que geram lucro.
+                        </p>
+                    </div>
+
+                    <div class="mt-12 flex gap-6 items-center">
+                        <a href="#contact" class="relative group px-12 py-5 bg-blood text-white font-loud uppercase tracking-widest overflow-hidden border-2 border-blood">
+                            <span class="relative z-10 group-hover:text-blood transition-colors">Destruir Padrões</span>
+                            <div class="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-200 ease-linear"></div>
+                        </a>
+                        <span class="font-trash text-concrete text-sm rotate-6">"Não clique se tiver medo"</span>
+                    </div>
+                </div>
+
+                <!-- Visual Element -->
+                <div class="md:col-span-4 relative h-[600px] hidden md:block">
+                    <!-- The Statue -->
+                    <div class="glitch-container w-full h-full border-4 border-paper bg-concrete transform -rotate-3">
+                        <img src="principal.png"alt="Vandal Art" class="w-full h-full object-cover transition-all duration-300" style="">
+                    </div>
+                    <!-- Tape Overlay -->
+                    <div class="absolute top-10 -right-10 bg-tape text-black font-trash px-8 py-2 text-xl rotate-45 shadow-lg z-20">
+                        CENSURADO
+                    </div>
+                    <div class="absolute bottom-20 -left-10 bg-black text-white font-tech px-4 py-1 -rotate-12 z-20 border border-white">
+                        ERROR_404: SOUL_NOT_FOUND
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MARQUEE: THE SCREAM -->
+       <div class="w-full overflow-hidden relative z-50 -mt-4 md:-mt-6 py-2 pointer-events-none">
+            <div class="bg-tape text-ink font-loud text-sm md:text-4xl py-1 md:py-4 border-y md:border-y-4 border-ink transform -rotate-1 origin-center scale-105 shadow-[0_5px_10px_rgba(0,0,0,0.3)]">
+                
+                <div class="animate-marquee whitespace-nowrap">
+                    <span class="px-4">
+                        BELEZA NÃO PAGA BOLETO +++ O CAOS VENDE +++ PERFEIÇÃO É PARA OS MORTOS +++ SEJA O ERRO NO SISTEMA +++
+                    </span>
+                    
+                    <span class="px-4">
+                        BELEZA NÃO PAGA BOLETO +++ O CAOS VENDE +++ PERFEIÇÃO É PARA OS MORTOS +++ SEJA O ERRO NO SISTEMA +++
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- MANIFESTO: THE TRUTH -->
+        <section id="manifesto" class="py-32 px-6 bg-paper text-ink relative">
+            <!-- Torn paper effect top -->
+            <div class="absolute top-0 left-0 w-full h-12 bg-ink" style="clip-path: polygon(0 0, 100% 0, 100% 10%, 95% 0%, 90% 10%, 85% 0%, 80% 10%, 75% 0%, 70% 10%, 65% 0%, 60% 10%, 55% 0%, 50% 10%, 45% 0%, 40% 10%, 35% 0%, 30% 10%, 25% 0%, 20% 10%, 15% 0%, 10% 10%, 5% 0%, 0 10%);"></div>
+
+            <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-20">
+                <div class="relative reveal active">
+                    <h2 class="font-classy text-7xl md:text-9xl mb-8 leading-[0.8]">
+                        ANTI<br>
+                        <span class="text-blood">AGÊNCIA</span>
+                    </h2>
+                    <div class="dyn-img-link-wrapper-di-script" style="border-radius: 0px;"><img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSzuzFyynzTV_IXsx3jOlpuZd0U-pnVn7IQnZq3uIpvrGi5ks_o_0qAWf2bu27kCbiNSIf-rBBNzaTbBZI" go-data-src="/image?query=graffiti+arrow+drawn+sketch" class="absolute top-0 right-0 w-32 rotate-12 opacity-80" alt="Arrow" style=""><button class="dyn-img-attribution-button-di-script" title="Image Attribution" style="display: flex;"><span class="material-symbols-outlined">open_in_full</span></button><span class="dyn-img-inline-attribution-di-script" style="display: none;">Alex_Bond/Getty Images</span></div>
+                    
+                    <div class="space-y-8 font-tech text-lg border-l-4 border-ink pl-8">
+                        <p>
+                            Você entra no site do seu concorrente. É azul. Tem uma foto de banco de imagem de pessoas apertando as mãos. Tem um texto sobre "missão e valores".
+                        </p>
+                        <p class="font-bold text-blood">
+                            DÁ VONTADE DE VOMITAR.
+                        </p>
+                        <p>
+                            Nós não fazemos isso. Nós pegamos a essência da sua marca e jogamos num liquidificador com vidro quebrado e gasolina. O resultado? Algo que ninguém consegue ignorar.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="relative reveal delay-200 active">
+                    <!-- Collage Art -->
+                    <div class="relative w-full aspect-square bg-ink p-4 transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                        <img style="" src="arte.png" class="w-full h-full object-cover grayscale contrast-125" alt="Collage">
+                        
+                        <!-- Floating Elements -->
+                        <div class="absolute -top-6 -left-6 bg-white border-2 border-black p-4 shadow-[4px_4px_0_0_#000]">
+                            <span class="font-trash text-xl">"Isso não é arte."</span>
+                        </div>
+                        <div class="absolute -bottom-8 -right-8 bg-tape p-4 transform rotate-3">
+                            <span class="font-loud text-lg font-bold">É GUERRA.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES: THE WEAPONS -->
+        <section class="py-24 bg-ink relative overflow-hidden">
+            <!-- Background Graffiti -->
+            <div class="absolute top-1/4 left-1/4 opacity-10 pointer-events-none">
+                <span class="font-trash text-[20rem] text-white">NO!</span>
+            </div>
+
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-20 border-b border-gray-800 pb-8">
+                    <h2 class="font-loud text-4xl md:text-7xl text-white">O ARSENAL</h2>
+                    <p class="font-tech text-blood text-right mt-4 md:mt-0 text-xs md:text-base">/// SELECIONE O VETOR DE ATAQUE</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-l border-gray-800">
+                    
+                    <div class="group border-r border-b border-gray-800 p-8 md:p-12 hover:bg-concrete/10 transition-colors relative overflow-hidden reveal active">
+                        <div class="absolute top-4 right-4 font-tech text-gray-600">001</div>
+                        
+                        <h3 class="font-classy text-3xl md:text-4xl text-white mb-6 group-hover:text-tape transition-colors">
+                            INTERFACE<br>TÓXICA
+                        </h3>
+                        
+                        <p class="font-sans text-gray-400 mb-8 text-sm md:text-base">
+                            <span class="text-white font-bold block mb-2">// WEB APPS & SITES</span>
+                            Chega de templates amigáveis. Criamos interfaces viciantes que sequestram a dopamina do usuário. Design agressivo e performance que faz o site do concorrente parecer discada.
+                        </p>
+                        
+                        <span class="material-symbols-outlined text-6xl text-gray-700 group-hover:text-white transition-colors">visibility</span>
+                    </div>
+
+                    <div class="group border-r border-b border-gray-800 p-8 md:p-12 hover:bg-concrete/10 transition-colors relative overflow-hidden reveal delay-100 active">
+                        <div class="absolute top-4 right-4 font-tech text-gray-600">002</div>
+                        
+                        <h3 class="font-classy text-3xl md:text-4xl text-white mb-6 group-hover:text-blood transition-colors">
+                            ARQUITETURA<br>DE CAOS
+                        </h3>
+                        
+                        <p class="font-sans text-gray-400 mb-8 text-sm md:text-base">
+                            <span class="text-white font-bold block mb-2">// SISTEMAS COMPLEXOS</span>
+                            Enquanto eles usam WordPress, nós codamos a "Matrix". Desenvolvemos sistemas robustos, painéis administrativos e automações que funcionam como o cérebro de uma organização criminosa.
+                        </p>
+                        
+                        <span class="material-symbols-outlined text-6xl text-gray-700 group-hover:text-white transition-colors">terminal</span>
+                    </div>
+
+                    <div class="group border-r border-b border-gray-800 p-8 md:p-12 hover:bg-concrete/10 transition-colors relative overflow-hidden reveal delay-200 active">
+                        <div class="absolute top-4 right-4 font-tech text-gray-600">003</div>
+                        
+                        <h3 class="font-classy text-3xl md:text-4xl text-white mb-6 group-hover:text-tape transition-colors">
+                            VÍRUS DE<br>MERCADO
+                        </h3>
+                        
+                        <p class="font-sans text-gray-400 mb-8 text-sm md:text-base">
+                            <span class="text-white font-bold block mb-2">// GROWTH & IDENTITY</span>
+                            Sua marca não precisa ser amada, precisa ser viral. Criamos identidades visuais e estratégias de tráfego que se espalham como praga. Infecte seu público-alvo até não haver cura.
+                        </p>
+                        
+                        <span class="material-symbols-outlined text-6xl text-gray-700 group-hover:text-white transition-colors">coronavirus</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- WORKS: THE EVIDENCE -->
+        <section id="work" class="py-32 bg-paper text-ink">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 md:mb-24">
+                <h2 class="font-loud text-4xl md:text-8xl mb-4 relative inline-block">
+                    ANOMALIAS
+                    <div class="absolute -top-8 -right-4 md:-top-10 md:-right-20 bg-blood text-white font-trash text-xs md:text-sm p-1 md:p-2 rotate-12 whitespace-nowrap shadow-md">
+                        DADOS CORROMPIDOS
+                    </div>
+                </h2>
+            </div>
+
+                <!-- Case Study 1 -->
+                <div class="flex flex-col md:flex-row gap-12 mb-32 items-center reveal group active">
+                    <div class="w-full md:w-7/12 relative">
+                        <div class="absolute top-2 left-2 w-full h-full border-4 border-ink z-0 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform"></div>
+                        <div class="relative z-10 border-4 border-ink overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <img style="" src="Work 1.png" alt="Work 1" class="w-full h-auto">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <div class="font-tech text-xs text-blood mb-2">CASE #0891</div>
+                        <h3 class="font-classy text-5xl mb-6">M.O.R.T.E. APPAREL</h3>
+                        <p class="font-sans text-lg mb-6 border-l-2 border-tape pl-4">
+                            O cliente queria vender camisetas. Nós criamos um culto. O site simula um terminal de hacker. O checkout insulta o usuário se ele demorar.
+                        </p>
+                        <div class="bg-ink text-white inline-block px-4 py-2 font-tech text-sm">RESULTADO: +400% VENDAS</div>
+                    </div>
+                </div>
+
+                <!-- Case Study 2 -->
+                <div class="flex flex-col md:flex-row-reverse gap-12 items-center reveal delay-100 group active">
+                    <div class="w-full md:w-7/12 relative">
+                        <div class="absolute top-2 left-2 w-full h-full border-4 border-ink z-0 group-hover:translate-x-[-8px] group-hover:translate-y-2 transition-transform"></div>
+                        <div class="relative z-10 border-4 border-ink overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <img style="" src="Work 2.png" alt="Work 2" class="w-full h-auto">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-5/12 text-right">
+                        <div class="font-tech text-xs text-blood mb-2">CASE #0992</div>
+                        <h3 class="font-classy text-5xl mb-6">NEON FUSION FEST</h3>
+                        <p class="font-sans text-lg mb-6 border-r-2 border-tape pr-4">
+                           Um festival que nunca quis ser um festival.
+
+                            Criamos uma experiência digital onde música, código e colapso visual coexistem.<br>
+                        </p>
+                        <div class="bg-ink text-white inline-block px-4 py-2 font-tech text-sm">RESULTADO: QUEDA DE SERVIDORES</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CONTACT: THE CONFESSION -->
+        <section id="contact" class="min-h-screen bg-blood relative flex items-center justify-center py-20 overflow-hidden">
+            <!-- Background Texture -->
+            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/black-felt.png')] opacity-30 mix-blend-multiply"></div>
+            
+            <img
+    src="hand.png"
+    alt="Hand"
+    class="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-multiply pointer-events-none"
+  />
+
+            <div class="container mx-auto px-6 relative z-10 w-full max-w-4xl">
+    <div class="bg-paper p-8 md:p-16 border-4 border-black shadow-[20px_20px_0_0_#000] transform -rotate-1">
+        
+        <div class="text-center mb-12">
+            <h2 class="font-loud text-4xl md:text-6xl text-ink mb-4">CONFESSIONÁRIO</h2>
+            <p class="font-trash text-xl text-blood">"Perdoe-me pai, pois eu quero lucrar."</p>
+        </div>
+
+        <form class="space-y-8">
+            <div class="group relative">
+                <label class="font-tech text-xs uppercase text-concrete mb-1 block">Quem é você?</label>
+                <input type="text" class="w-full bg-transparent border-b-4 border-ink text-2xl font-classy py-2 text-ink focus:outline-none focus:border-blood transition-colors placeholder-gray-400" placeholder="Seu Nome (ou Vulgo)">
+            </div>
+
+            <div class="group relative">
+                <label class="font-tech text-xs uppercase text-concrete mb-1 block">Onde te achamos?</label>
+                <input type="email" class="w-full bg-transparent border-b-4 border-ink text-2xl font-classy py-2 text-ink focus:outline-none focus:border-blood transition-colors placeholder-gray-400" placeholder="seu@email.com">
+            </div>
+
+            <div class="group relative">
+                <label class="font-tech text-xs uppercase text-concrete mb-1 block">Qual o seu pecado?</label>
+                <textarea rows="3" class="w-full bg-transparent border-b-4 border-ink text-xl font-sans py-2 text-ink focus:outline-none focus:border-blood transition-colors placeholder-gray-400 resize-none" placeholder="Preciso de um site que assuste minha avó..."></textarea>
+            </div>
+
+            <div class="pt-8">
+                <button type="button" class="w-full bg-ink text-white font-loud text-2xl py-6 hover:bg-tape hover:text-black transition-colors border-4 border-transparent hover:border-black flex justify-center items-center gap-4 group">
+                    <span class="group-hover:animate-pulse">ENVIAR ULTIMATO</span>
+                    <span class="material-symbols-outlined text-4xl">send</span>
+                </button>
+                <p class="text-center mt-4 font-tech text-xs text-concrete">
+                    *Ao clicar, você concorda que somos irresponsáveis.
+                </p>
+            </div>
+        </form>
+
+    </div>
+</div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="bg-ink text-concrete py-12 border-t border-gray-900 font-tech text-xs text-center relative z-10">
+            <div class="container mx-auto">
+                <p class="mb-4 leading-relaxed">
+                    © 2026 — TODA ARTE QUE MERECE SER COPIADA<br>
+                    JÁ ESCAPOU DO CONTROLE.
+                </p>
+
+                <div class="flex justify-center gap-4 text-2xl opacity-70 hover:opacity-100 transition">
+                    <a href="#" class="hover:text-white">☠️</a>
+                    <a href="#" class="hover:text-white">☠️</a>
+                    <a href="#" class="hover:text-white">☠️</a>
+                </div>
+            </div>
+        </footer>
+
+
+    </main>
+
+    <script>
+        // Preloader Logic
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 1000);
+            }, 1500); // Fake delay for drama
+        });
+
+        // Scroll Reveal
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+
+    <!-- 
+    Image List for Comments:
+    "/gen?prompt=black+and+white+photocopy+texture+of+crumbled+paper+and+concrete+grunge&aspect=16:9"
+    "/gen?prompt=classical+greek+statue+torso+with+head+replaced+by+a+glitching+security+camera+cyberpunk+trash+polka+style&aspect=3:4"
+    "/image?query=graffiti+arrow+drawn+sketch"
+    "/gen?prompt=collage+art+of+renaissance+painting+eyes+covered+with+black+bar+mixed+with+computer+circuitry+and+spray+paint+drips&aspect=1:1"
+    "/gen?prompt=dark+mode+fashion+website+on+imac+screen+with+glitch+overlay+high+contrast&aspect=16:9"
+    "/gen?prompt=brutalist+crypto+exchange+interface+neon+acid+green+on+black+grid+background&aspect=16:9"
+    "/gen?prompt=greek+statue+hand+holding+a+burning+smartphone+oil+painting+style&aspect=1:1"
+    -->
+
+
+</body></html>
